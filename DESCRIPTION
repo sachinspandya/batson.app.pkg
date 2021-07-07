@@ -1,0 +1,24 @@
+Package: batson.app.pkg
+Title: Batson App
+Version: 0.0.0.9000
+Authors@R: person('Sachin', 'Pandya', email = 'sachin.pandya@uconn.edu', role = c('cre', 'aut'))
+Description: Estimate bias for Batson challenges
+License: MIT + file LICENSE
+Imports: 
+    config (>= 0.3.1),
+    dplyr,
+    ggplot2,
+    golem (>= 0.3.1),
+    mcmc,
+    Rcpp,
+    rhandsontable,
+    shiny (>= 1.6.0),
+    shinythemes,
+    stringr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Depends: 
+    R (>= 2.10)
+LinkingTo: 
+    Rcpp
