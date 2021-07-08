@@ -15,7 +15,7 @@ app_server <- function( input, output, session ) {
       hot_col("cog", format = "0") |>
       hot_col("party", type = "dropdown", source = party_choices) |>
       hot_validate_numeric(cols = 4, min = 0) |>
-      hot_context_menu(allowRowEdit = TRUE)
+      hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE)
   })
   
   # Calculate and Plot the Posterior Distribution
