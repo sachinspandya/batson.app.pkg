@@ -22,3 +22,5 @@ Depends:
     R (>= 2.10)
 LinkingTo: 
     Rcpp
+URL: https://github.com/sachinspandya/batson.app.pkg
+BugReports: https://github.com/sachinspandya/batson.app.pkg/issues
