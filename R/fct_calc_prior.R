@@ -77,5 +77,5 @@ calc_prior <- function(atny_name,pp,dat,cog){
   df_m <- subset(atny_name,pp,dat,cog)
   out <- make_posterior(x = df_m, niter = 110000, theta_start_val = 0,theta_proposal_sd =.5,prior_mean = 0,prior_sd=2)
   d1 <- out$theta[1001:11000]
-  return(list(prior_mean = mean(d1),prior_sd = sd(d1)))
+  return(list(prior_mean = mean(d1),prior_sd = stats::sd(d1)))
 }
