@@ -3,10 +3,8 @@
 #' @param input,output,session Internal parameters for {shiny}. 
 #'     DO NOT REMOVE.
 #' @import shiny
-#' @import dplyr
 #' @import ggplot2
-#' @import rhandsontable
-#' @import stats
+#' @useDynLib batson.app.pkg
 #' @noRd
 app_server <- function( input, output, session ) {
 
