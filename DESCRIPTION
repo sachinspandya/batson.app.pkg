@@ -9,7 +9,7 @@ Authors@R:
     person(given = "Timothy", family = "Moore", role = "aut")
     )
 Description: This Shiny application estimates bias in the use of peremptory challenges to support Batson challenges.
-License: file LICENSE
+License: GPL (>= 3)
 Imports: 
     config (>= 0.3.1),
     dplyr,
