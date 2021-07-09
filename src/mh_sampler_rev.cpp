@@ -1,16 +1,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-// This is a simple example of exporting a C++ function to R. You can
-// source this function into an R session using the Rcpp::sourceCpp 
-// function (or via the Source button on the editor toolbar). Learn
-// more about Rcpp at:
-//
-//   http://www.rcpp.org/
-//   http://adv-r.had.co.nz/Rcpp.html
-//   http://gallery.rcpp.org/
-//
-
 // [[Rcpp::export]]
 double probcpp(bool cog, int c, int m, double d){
   if(cog){
@@ -20,8 +10,6 @@ double probcpp(bool cog, int c, int m, double d){
   }
 }
 
-
-// x, col 2 should be number cognizable, 3 be total, 4 be cognizable
 // [[Rcpp::export]]
 double Lk_cpp(double d,NumericMatrix x, bool L){
   double lglkr=0;
@@ -63,10 +51,7 @@ List make_posterior(NumericMatrix x, int niter,
     r = log(Priorcpp(new_theta,prior_mean,prior_sd))+Lk_cpp(new_theta,x, 1)-log(Priorcpp(current_theta,prior_mean,prior_sd))-
       Lk_cpp(current_theta,x,1);
     
-    
     thresh = log(runif(1)[0]);
-    
-    
     
     if(thresh<r){
       theta[i] = new_theta;
@@ -84,7 +69,6 @@ List make_posterior(NumericMatrix x, int niter,
   return List::create(Named("theta")=theta,Named("accept_rate")=acpt);
 }
 
-// x, col 2 should be number cognizable, 3 be total, 4 be cognizable
 // [[Rcpp::export]]
 double Lk_cpp_p(double d,NumericMatrix x, bool L){
   double lglkr=0;
