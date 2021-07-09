@@ -1,9 +1,15 @@
 Package: batson.app.pkg
 Title: Batson App
 Version: 0.0.0.9000
-Authors@R: person('Sachin', 'Pandya', email = 'sachin.pandya@uconn.edu', role = c('cre', 'aut'))
-Description: Estimate bias for Batson challenges
-License: MIT + file LICENSE
+Authors@R: 
+    c(
+    person('Sachin', 'Pandya', email = 'sachin.pandya@uconn.edu', role = c('cre', 'aut'),
+    comment = c(ORCID = "0000-0001-7387-1307")),
+    person(given = "Xiaomeng", family = "Li",role = "aut"),
+    person(given = "Timothy", family = "Moore", role = "aut")
+    )
+Description: This Shiny application estimates bias in the use of peremptory challenges to support Batson challenges.
+License: file LICENSE
 Imports: 
     config (>= 0.3.1),
     dplyr,
@@ -26,5 +32,8 @@ LinkingTo:
 URL: https://github.com/sachinspandya/batson.app.pkg
 BugReports: https://github.com/sachinspandya/batson.app.pkg/issues
 Suggests: 
+    rmarkdown,
+    knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
