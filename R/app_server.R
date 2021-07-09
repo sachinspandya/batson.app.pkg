@@ -7,6 +7,10 @@
 #' @useDynLib batson.app.pkg
 #' @noRd
 app_server <- function( input, output, session ) {
+  
+  observe({
+    if (input$close > 0) stopApp()
+  })
 
   output$hot <- rhandsontable::renderRHandsontable({
     
