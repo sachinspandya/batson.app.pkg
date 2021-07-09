@@ -1,8 +1,3 @@
-### assume dat0 is all the historical data we have
-
-#Rcpp::sourceCpp("R/mh_sampler_pp.cpp")
-
-#dat0 <- readRDS("jury_data_cleaned_new.rds")
 
 #### extract_atny() function extracts the subset of jury_data_cleaned that corresponds to 
 #### the attorney name inputted in 'atny_name' parameter. 
@@ -27,11 +22,11 @@ extract_atny <- function(atny_name,pp,dat){
 #### input of cog should be either 'gender' or 'race'
 
 organize_input <- function(dat,pp,cog){
-  dat_strikes <- dat %>% filter(!is.na(strike_seq)) 
+  dat_strikes <- dat |> dplyr::filter(!is.na(strike_seq)) 
   if(cog=='gender'){
-    dat_strikes <- dat_strikes %>% filter(!is.na(sex))
+    dat_strikes <- dat_strikes |> dplyr::filter(!is.na(sex))
   }else{
-    dat_strikes <- dat_strikes %>% filter(!is.na(race))
+    dat_strikes <- dat_strikes |> dplyr::filter(!is.na(race))
   }
   
   dat_strikes <- dat_strikes[order(dat_strikes$strike_seq),]
@@ -72,7 +67,7 @@ organize_input <- function(dat,pp,cog){
 
 subset <- function(atny_name,pp,dat,cog){
   dat_sub <- extract_atny(atny_name,pp,dat)
-  sub1 <- dat_sub %>% group_split(ID)
+  sub1 <- dat_sub |> dplyr::group_split(ID)
   sub1_l <- lapply(1:length(sub1), function(x) organize_input(sub1[[x]],pp,cog))
   df_m = do.call(rbind.data.frame,sub1_l)
   df_m <- as.matrix(df_m)
