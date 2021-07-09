@@ -1,0 +1,80 @@
+---
+title: "batson_vignette"
+author: "Sachin S. Pandya"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: references.bib
+vignette: >
+  %\VignetteIndexEntry{batson_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval = FALSE}
+library(batson.app.pkg)
+```
+
+# Introduction
+
+This package implements a Shiny application that, during jury selection, attorneys can use in real time to estimate the probability that a prosecutor or defense attorney used peremptory challenges to strike potential jurors because of juror race or gender, in violation of _Batson v. Kentucky_ (1986), and its progeny.
+
+This application estimates how likely an attorney used peremptory challenges during jury selection to strike potential jurors based on their race or gender. The analysis builds on prior work on statistical analysis for _Batson_ challenges. To estimate such bias, this application relies on (1) user-inputted data on how an attorney has used strikes in the case before them; and (2) if available, jury-selection data on that attorney's use of strikes in some past cases during 2013-2017 in the federal district court for the District of Connecticut.
+
+# Model 
+
+Under the "struck jury" method of peremptory challenges, the trial judge rules on all challenges for cause before the parties exercise any peremptories, so that the number of potential jurors who remain is the sum of number of seats on the jury (plus alternates, if any) and the number of peremptory challenges allotted to both sides. Accordingly, in a non-capital felony trial in federal district court using this method, the trial judge will, after excusing jurors for cause, make sure that there are 28 potential jurors remaining before the parties exercise their peremptory challenges (12 jurors plus 16 peremptories, assuming no alternate jurors). Then, the parties exercise their strikes on those 28 potential jurors.
+
+In a typical variant of the "struck jury" method, the parties strike in an alternating sequence, with the prosecution striking first. Where the number of strikes are not the same for the parties, an alternating sequence may result in one party exercising multiple strikes per turn. If a party decides not to use all its strikes, the jurors are seated based on the order in which they were selected or at random.
+	
+Under "strike-and-replace" or "jury box" method, enough potential jurors are seated to fill the jury box. Some of them are excused for cause, and the parties decide whether or not to strike any of the remaining jurors with their peremptory challenges.  Once that is completed, new potential jurors take the seats of the excused or striken jurors, and the process repeats until all the jury seats are filled.  At any point, strikes can be used on anyone in the jury box, including those there previously but not struck.
+
+For these peremptory challenges, following @Kadane2018 and @Barrett2007, we model the probability that the struck person belonged (or not) to the cognizable class as a function of (1) the number of cognizable class members (e.g., racial minorities, women) and non-class members (e.g., White people, men) in the set of people who could have been struck; and (2) a parameter $b$ that indicates how much weight (or "bias") the striking party placed on the struck juror's membership in the cognizable class (e.g., whether that juror was a racial minority or White; women or man). 
+
+For any given jury selection $i$, let $j$ denote a peremptory strike used, and let $\delta_{ij}$ denote whether or not a party used that strike on a person who belongs to a "cognizable class". If "race" is the bias type of interest, the cognizable class is racial minority jurors ($\delta_{ij} =1$, 0 for White jurors).  If "gender" is the bias of interest, the cognizable class is female jurors ($\delta_{ij} = 1$, 0 for male jurors). In turn, let $c_{ij}$ denote the number of cognizable class members subject to strike; and $m_{ij}$ denote the number of cognizable class non-members subject to strike, such that $c_{ij}+m_{ij}$ is the total number of jurors potentially subject to strike.
+
+Accordingly, for any given value of the bias parameter $b$, the probability of strike, or $Pr(\delta_{ij})$, is:
+
+$$
+Pr(\delta_{ij} | b) = 
+\begin{cases}
+  \frac{(e^b)c_{ij}}{(e^b)c_{ij}+m_{ij}} & \text{for }\delta_{ij}=1\\    
+  \frac{m_{ij}}{(e^b)c_{ij}+m_{ij}} & \text{for }\delta_{ij}=0  
+\end{cases}
+$$
+This is equivalent to
+
+$$Pr(\delta_{ij}| b) = \frac{(e^b)c_{ij}}{(e^b)c_{ij}+m_{ij}})^{\delta_{ij}} (\frac{m_{ij}}{(e^b)c_{ij}+m_{ij}})^{1-\delta_{ij}}$$
+
+If $b = 0$, there is no bias, and the probability of strike is simply a function of the share of cognizable members (non-members) in the pool of prospective jurors that could be struck.
+
+Because $b$ is not directly observable, we are interested in estimating the likely values of $b$, given the strike data we have, i.e., $\delta_{ij}$, $c_{ij}$, and $m_{ij}$.
+
+Accordingly, we model the jury-selection process as follows. 
+
+\[L(b|\delta) = \prod_{i=1}^{n_i} \prod_{j=1}^{n_j}(\frac{(e^b)c_{ij}}{(e^b)c_{ij}+m_{ij}})^{\delta_{ij}} (\frac{m_{ij}}{(e^b)c_{ij}+m_{ij}})^{1-\delta_{ij}}\]
+\[b \sim \text{Normal}(0,2)\]
+
+where $n_{i}$ is the total number of jury selections; and $n_j$ is the total number of peremptory strikes.
+
+This way, if it is equally likely that a member and non-member of the cognizable class will be stricken, then $w = \frac{Pr(X=1)=0.50}{Pr(X = 0)=0.50}=1$. If so, our measure of bias is zero: given $w=e^b$, then $e^b=1$ and $b=log(1)=0$. If $b>0$, we infer that the the party has bias favoring a strike against a juror falling within the cognizable class ($X=1$, e.g., the juror is a racial minority). Where $b<0$, the party has bias toward striking a juror falling outside the cognizable class ($X=0$, e.g., the juror is White). 
+
+# Plots
+
+Based on this data, the _Batson_ app graphs $b$ -- our measure of bias -- for the prosecution and the defense: **positive** values reflect bias _against_ the cognizable class, while **negative** values reflect bias _for_ the cognizable class. If $b = 0$, that there is zero bias. 
+
+The plots show how likely each possible value of $b$ is, given the data we have. The curve's spread (the distribution's *variance*) depicts how confident we should be in any particular value of $b$ from the data we have. 
+
+The dashed lines indicate a pre-set _credible interval_, i.e., here the values of $b$ between which 80% of the likely values of $b$ fall. If zero falls within the dashed lines, then we should be wary about inferring bias (for or against the cognizable class) from the strike data alone. If zero falls outside the dashed lines, we should feel confident in inferring bias from that strike data.
+
+The grey graph depicts $b$ based _only_ on a pre-set distribution of $b$ to reflect a starting point that bias is unlikely, as adjusted by any historical strike data we have for a particular selected attorney. This represents our *prior beliefs* about an attorney's possible bias in using peremptory challenges, before we know anything about how any attorney uses peremptory strikes in the case before us. The red (for prosecution) and blue (for the defense) distributions in the foreground represent our _updated_ expectations after accounting for the user-inputted strike data.
+
+# References
+
+
