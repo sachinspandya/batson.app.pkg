@@ -3,19 +3,23 @@
 #' @param input,output,session Internal parameters for {shiny}. 
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import dplyr
+#' @import ggplot2
+#' @import rhandsontable
+#' @import stats
 #' @noRd
 app_server <- function( input, output, session ) {
 
-  output$hot <- renderRHandsontable({
+  output$hot <- rhandsontable::renderRHandsontable({
     
-    rhandsontable(df0, width = 600, height = 700) |>
-      hot_col("round", format = "0") |>
-      hot_col("num_cog", format = "0") |>
-      hot_col("total", format = "0") |>
-      hot_col("cog", format = "0") |>
-      hot_col("party", type = "dropdown", source = party_choices) |>
-      hot_validate_numeric(cols = 4, min = 0) |>
-      hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE)
+    rhandsontable::rhandsontable(df0, width = 600, height = 700) |>
+      rhandsontable::hot_col("round", type = "numeric", format = "0") |>
+      rhandsontable::hot_col("num_cog", type = "numeric",format = "0") |>
+      rhandsontable::hot_col("total", type = "numeric", format = "0") |>
+      rhandsontable::hot_col("cog", format = "0") |>
+      rhandsontable::hot_col("party", type = "dropdown", source = party_choices, strict = TRUE) |>
+      rhandsontable::hot_validate_numeric(cols = 4, min = 0) |>
+      rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE)
   })
   
   # Calculate and Plot the Posterior Distribution
@@ -26,18 +30,18 @@ app_server <- function( input, output, session ) {
   output$plot <- renderPlot({
     
     if(is.null(input$hot)) return(NULL)
-    df0 <- hot_to_r(input$hot)
+    df0 <- rhandsontable::hot_to_r(input$hot)
     
     # strike tally for prosecutor
     df_mp <- df0 |>
-      filter(party == "PP") |>
-      select(-c(party)) |>
+      dplyr::filter(party == "PP") |>
+      dplyr::select(-c(party)) |>
       as.matrix()
     
     # strike tally for defense
     df_md <- df0 |>
-      filter(party == "PD") |>
-      select(-c(party)) |>
+      dplyr::filter(party == "PD") |>
+      dplyr::select(-c(party)) |>
       as.matrix()
     
     # specify prior values
@@ -67,7 +71,7 @@ app_server <- function( input, output, session ) {
     }else{
       out_p <- make_posterior(x = df_mp,niter = 110000,theta_start_val = 0, theta_proposal_sd =.5, 
                               prior_mean = 0, prior_sd = 2)
-      pp_prior_theta <- rnorm(100000,0,2)
+      pp_prior_theta <- stats::rnorm(100000,0,2)
       pp_prior <- data.frame(theta = pp_prior_theta, 
                              party = "Prosecution", 
                              posterior = "Prior")
@@ -92,7 +96,7 @@ app_server <- function( input, output, session ) {
     }else{
       out_d <- make_posterior(x = df_md,niter = 110000,theta_start_val = 0, theta_proposal_sd =.5, 
                               prior_mean = 0, prior_sd = 2)
-      pd_prior_theta <- rnorm(100000,0,2)
+      pd_prior_theta <- stats::rnorm(100000,0,2)
       pd_prior <- data.frame(theta = pd_prior_theta, 
                              party = "Defense", 
                              posterior = "Prior")
@@ -128,15 +132,15 @@ app_server <- function( input, output, session ) {
     dat$party <- factor(dat$party, levels = c("Defense", "Prosecution"), 
                         ordered = TRUE)
     
-    CI <- dat |> filter(posterior == 'Posterior') |>
-      group_by(party) |>
-      summarise(q1 = quantile(theta,0.1), q2 = quantile(theta,0.9)) |>
-      mutate(bias = ifelse(
+    CI <- dat |> dplyr::filter(posterior == 'Posterior') |>
+      dplyr::group_by(party) |>
+      dplyr::summarise(q1 = stats::quantile(theta,0.1), q2 = stats::quantile(theta,0.9)) |>
+      dplyr::mutate(bias = ifelse(
         q1 <= 0 & q2 >= 0, "No Bias", "Bias"))
     
     # plot
     
-    pplot <- ggplot(data=dat) + 
+    pplot <- ggplot2::ggplot(data=dat) + 
       geom_density(aes(x = theta, 
                        fill = interaction(party, posterior),
                        color = interaction(party, posterior),
@@ -166,7 +170,7 @@ app_server <- function( input, output, session ) {
     
     # add 80% credible interval
     
-    pplot + geom_vline(data=CI, aes(xintercept=q1), color = c("blue", "darkred"),
+    pplot + ggplot2::geom_vline(data=CI, aes(xintercept=q1), color = c("blue", "darkred"),
                        linetype="dashed", size = 0.9)+
       geom_vline(data=CI, aes(xintercept=q2), color = c("blue", "darkred"),
                  linetype="dashed", size = 0.9) 

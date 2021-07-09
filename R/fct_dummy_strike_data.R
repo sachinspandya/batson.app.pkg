@@ -17,24 +17,22 @@ party_choices <- c("PP","PD")
 
 # Define Cognitive Class choices
 
+cog_choices <- c(0,1)
 cog_c_levels <- c("race","gender")
 
 #### attorney name choices ####
 
 load(file = "data/dat0.rda")
 
-library(dplyr)
-library(rhandsontable)
-
 atty_levels_p <- dat0 |>
-  pull("P_atty_l") |>
+  dplyr::pull("P_atty_l") |>
   unlist() |>
   unique() |>
   stringr::str_trim() |>
   factor()
 
 atty_levels_d <- dat0 |>
-  pull("D_atty_l") |>
+  dplyr::pull("D_atty_l") |>
   unlist() |>
   unique() |>
   stringr::str_trim() |>

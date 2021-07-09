@@ -35,7 +35,7 @@ app_ui <- function(request) {
                             hr(),
                             
                             "Current Strike Tally",
-                            rHandsontableOutput("hot"),
+                            rhandsontable::rHandsontableOutput("hot"),
                             
                           ),
                           mainPanel(
