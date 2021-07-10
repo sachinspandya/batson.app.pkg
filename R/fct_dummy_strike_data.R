@@ -6,6 +6,12 @@
 #'
 #' @noRd
 
+# Set global functions or variables to NULL
+
+race <- sex <- party <- posterior <- theta <- q1 <- q2 <- strike_seq <- ID <- scaled <- NULL
+
+# dummy data for strike tally
+
 df0 <- data.frame(round = c(1:10), 
                   num_cog = c(3, 4, 4, 3, 2, 2, 2, 2, 2,2),
                   total = rep(9, 10), 
