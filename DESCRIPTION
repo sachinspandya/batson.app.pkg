@@ -3,10 +3,18 @@ Title: Batson App
 Version: 0.0.0.9000
 Authors@R: 
     c(
-    person('Sachin', 'Pandya', email = 'sachin.pandya@uconn.edu', role = c('cre', 'aut'),
-    comment = c(ORCID = "0000-0001-7387-1307")),
-    person(given = "Xiaomeng", family = "Li",role = "aut"),
-    person(given = "Timothy", family = "Moore", role = "aut")
+    person(given = 'Sachin',
+           family = 'Pandya', 
+           email = 'sachin.pandya@uconn.edu', 
+           role = c('cre', 'aut'),
+           comment = c(ORCID = "0000-0001-7387-1307")),
+    person(given = "Xiaomeng", 
+           family = "Li",
+           role = "aut"),
+    person(given = "Timothy", 
+           family = "Moore", 
+           role = "aut",
+           comment = c(ORCID = "0000-0002-9576-0517"))
     )
 Description: This Shiny application estimates bias in the use of peremptory challenges to support Batson challenges.
 License: GPL (>= 3)
