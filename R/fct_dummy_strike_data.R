@@ -8,7 +8,7 @@
 
 # Set global functions or variables to NULL
 
-race <- sex <- party <- posterior <- theta <- q1 <- q2 <- strike_seq <- ID <- scaled <- NULL
+race <- sex <- party <- posterior <- theta <- q1 <- q2 <- strike_seq <- ID <- ..scaled.. <- NULL
 
 # dummy data for strike tally
 
