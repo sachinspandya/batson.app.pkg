@@ -73,7 +73,7 @@ The plots show how likely each possible value of $b$ is, given the data we have.
 
 The dashed lines indicate a pre-set _credible interval_, i.e., here the values of $b$ between which 80% of the likely values of $b$ fall. If zero falls within the dashed lines, then we should be wary about inferring bias (for or against the cognizable class) from the strike data alone. If zero falls outside the dashed lines, we should feel confident in inferring bias from that strike data.
 
-The grey graph depicts $b$ based _only_ on a pre-set distribution of $b$ to reflect a starting point that bias is unlikely, as adjusted by any historical strike data we have for a particular selected attorney. This represents our *prior beliefs* about an attorney's possible bias in using peremptory challenges, before we know anything about how any attorney uses peremptory strikes in the case before us. The red (for prosecution) and blue (for the defense) distributions in the foreground represent our _updated_ expectations after accounting for the user-inputted strike data.
+The grey graph depicts the prior distribution for $b$.  Absent any historical data, we set the initial prior such that $b=Normal(0,2)$. With historical strike data we have for a particular selected attorney, the grey graph depicts an updated prior. In either case, the prior represents our *prior beliefs* about an attorney's possible bias in using peremptory challenges, before we know anything about how any attorney uses peremptory strikes in the case before us. The red (for prosecution) and blue (for the defense) distributions in the foreground represent our updated_expectations after accounting for the user-inputted strike data.
 
 # References
 

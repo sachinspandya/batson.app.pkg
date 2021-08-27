@@ -1,7 +1,7 @@
 #' Jury Selection in Connecticut federal court
 #'
 #' A dataset containing the jury selection information for cases completed in the federal district court
-#'  of Connecticut for 2013-20187
+#'  of Connecticut for 2013-2018
 #'
 #' @format A data frame with 979 rows and 30 variables:
 #' \describe{
