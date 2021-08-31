@@ -33,6 +33,6 @@ dat0
 }
 \description{
 A dataset containing the jury selection information for cases completed in the federal district court
- of Connecticut for 2013-20187
+ of Connecticut for 2013-2018
 }
 \keyword{datasets}
