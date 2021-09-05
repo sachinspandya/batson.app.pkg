@@ -8,6 +8,8 @@
 #' @noRd
 app_server <- function( input, output, session ) {
   
+  party <- posterior <- theta <- q1 <- q2 <- ..scaled.. <- NULL
+  
   observe({
     if (input$close > 0) stopApp()
   })

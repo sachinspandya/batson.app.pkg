@@ -22,6 +22,7 @@ extract_atny <- function(atny_name,pp,dat){
 #### input of cog should be either 'gender' or 'race'
 
 organize_input <- function(dat,pp,cog){
+  strike_seq <- sex <- race <- NULL
   dat_strikes <- dat |> dplyr::filter(!is.na(strike_seq)) 
   if(cog=='gender'){
     dat_strikes <- dat_strikes |> dplyr::filter(!is.na(sex))
@@ -66,6 +67,7 @@ organize_input <- function(dat,pp,cog){
 ### to get the prior mean and sd corresponding to a defense attorney, we put the according name and set 'pp' as FALSE.
 
 subset <- function(atny_name,pp,dat,cog){
+  ID <- NULL
   dat_sub <- extract_atny(atny_name,pp,dat)
   sub1 <- dat_sub |> dplyr::group_split(ID)
   sub1_l <- lapply(1:length(sub1), function(x) organize_input(sub1[[x]],pp,cog))
