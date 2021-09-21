@@ -28,7 +28,7 @@ app_ui <- function(request) {
                             
                             selectInput("cog_c", "Cognizable Class:", choices=cog_c_levels),
                             
-                            radioButtons("weight", "Prior Strike History Weight:", inline=TRUE, selected = 1,
+                            radioButtons("weight", "Strike History Weight:", inline=TRUE, selected = 1,
                                          choiceValues = c(1, 0.5, 0.2),
                                          choiceNames = c("Equal","Half","Minimal") 
                             ),
