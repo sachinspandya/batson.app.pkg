@@ -15,40 +15,42 @@ app_ui <- function(request) {
       navbarPage("Batson App - Proof of Concept", theme = shinythemes::shinytheme("paper"),
                  
                  tabPanel("Prototype", fluid = TRUE,
-                          sidebarPanel(
+                          sidebarPanel(width = 4,
                             
-                            "Prior Strike History by Attorney",
-                            selectInput("atty_d", "Defense:", 
+                            "Current Strike Tally",
+                            rhandsontable::rHandsontableOutput("hot"),
+
+                            #"Prior Strike History by Attorney",
+                            selectInput("atty_d", "Strike History - Defense:", 
                                         choices=atty_levels_d,
                                         selected = "None"),
-                            
-                            selectInput("atty_p", "Prosecution:", 
+                            selectInput("atty_p", "Strike History - Prosecution:", 
                                         choices=atty_levels_p,
                                         selected = "None"),
-                            
-                            selectInput("cog_c", "Cognizable Class:", choices=cog_c_levels),
                             
                             radioButtons("weight", "Strike History Weight:", inline=TRUE, selected = 1,
                                          choiceValues = c(1, 0.5, 0.2),
                                          choiceNames = c("Equal","Half","Minimal") 
                             ),
-                            hr(),
-                            
-                            "Current Strike Tally",
-                            rhandsontable::rHandsontableOutput("hot"),
+                            #hr(),
                             
                           ),
                           mainPanel(
                             #actionButton("updateButton", "Update",
                             #             icon = icon("refresh")),
                             plotOutput("plot"),
-                          tags$button(
+                            selectInput("cog_c", 
+                                        "Cognizable Class:",
+                                        choices=cog_c_levels,
+                                        width = "25%"),
+                            tags$button(
                               id = 'close',
                               type = "button",
                               class = "btn action-button",
                               onclick = "setTimeout(function(){window.close();},500);",  # close browser
                               "Close App"
-                            )  
+                            ),
+                          
                             )
                  )
       ))
