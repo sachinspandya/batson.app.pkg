@@ -16,14 +16,15 @@ app_server <- function( input, output, session ) {
 
   output$hot <- rhandsontable::renderRHandsontable({
     
-    rhandsontable::rhandsontable(df0, width = 600, height = 700) |>
+    rhandsontable::rhandsontable(df0, width = 350, height = 300) |>
       rhandsontable::hot_col("round", type = "numeric", format = "0") |>
       rhandsontable::hot_col("num_cog", type = "numeric",format = "0") |>
       rhandsontable::hot_col("total", type = "numeric", format = "0") |>
       rhandsontable::hot_col("cog", format = "0") |>
       rhandsontable::hot_col("party", type = "dropdown", source = party_choices, strict = TRUE) |>
       rhandsontable::hot_validate_numeric(cols = 4, min = 0) |>
-      rhandsontable::hot_context_menu(allowRowEdit = TRUE, allowColEdit = FALSE)
+      rhandsontable::hot_context_menu(allowRowEdit = TRUE, 
+                                      allowColEdit = FALSE)
   })
   
   # Calculate and Plot the Posterior Distribution
