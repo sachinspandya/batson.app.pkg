@@ -139,7 +139,7 @@ app_server <- function( input, output, session ) {
     
     CI <- dat |> dplyr::filter(posterior == 'Posterior') |>
       dplyr::group_by(party) |>
-      dplyr::summarise(q1 = stats::quantile(theta,0.1), q2 = stats::quantile(theta,0.9)) |>
+      dplyr::summarise(q1 = stats::quantile(theta,0.025), q2 = stats::quantile(theta,0.975)) |>
       dplyr::mutate(bias = ifelse(
         q1 <= 0 & q2 >= 0, "No Bias", "Bias"))
     
@@ -156,7 +156,7 @@ app_server <- function( input, output, session ) {
     ## labels and theme
     
     pplot <- pplot  + theme_minimal() +
-      labs (title = "Likely values of b") +
+      labs (title = "Likely values of b (95% credible interval)") +
       xlab("") + 
       ylab("") + 
       xlim(c(-6,6)) +
@@ -173,7 +173,7 @@ app_server <- function( input, output, session ) {
       # add line at zero for reference
       geom_vline(xintercept = 0, color = "black", lwd=1.5)
     
-    # add 80% credible interval
+    # add 95% credible interval
     
     pplot + ggplot2::geom_vline(data=CI, aes(xintercept=q1), color = c("blue", "darkred"),
                        linetype="dashed", size = 0.9)+
