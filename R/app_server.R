@@ -150,7 +150,7 @@ app_server <- function( input, output, session ) {
                        fill = interaction(party, posterior),
                        color = interaction(party, posterior),
                        alpha = interaction(party, posterior), 
-                       y = ..scaled..))+
+                       y = after_stat(scaled)))+
       facet_wrap(~party, nrow =2)
     
     ## labels and theme
