@@ -21,7 +21,7 @@
 golem::fill_desc(
   pkg_name = "batson.app.pkg", # The Name of the package containing the App 
   pkg_title = "Batson App", # The Title of the package containing the App 
-  pkg_description = "Estimate bias for Batson challenges", # The Description of the package containing the App 
+  pkg_description = "Estimate illegal strike bias for Batson challenges", # The Description of the package containing the App 
   author_first_name = "Sachin", # Your First Name
   author_last_name = "Pandya", # Your Last Name
   author_email = "sachin.pandya@uconn.edu", # Your Email

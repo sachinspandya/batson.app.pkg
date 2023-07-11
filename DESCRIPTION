@@ -16,7 +16,7 @@ Authors@R:
            role = "aut",
            comment = c(ORCID = "0000-0002-9576-0517"))
     )
-Description: This Shiny application estimates bias in the use of peremptory challenges to support Batson challenges.
+Description: This Shiny application estimates strike bias in the use of peremptory challenges to support Batson challenges.
 License: GPL (>= 3)
 Imports: 
     config (>= 0.3.1),
