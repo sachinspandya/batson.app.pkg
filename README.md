@@ -13,6 +13,8 @@ The goal of batson.app.pkg is to create a R/Shiny package for detecting
 race or gender bias in the use of peremptory challenges during jury
 selection.
 
+<!--
+
 ## Installation
 
 You can install the released version of batson.app.pkg from
@@ -21,6 +23,8 @@ You can install the released version of batson.app.pkg from
 ``` r
 install.packages("batson.app.pkg")
 ```
+
+-->
 
 ## Functionality
 
