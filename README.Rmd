@@ -19,7 +19,9 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of batson.app.pkg is to create a R/Shiny package for detecting race or gender bias in the use of peremptory challenges during jury selection.
+The goal of batson.app.pkg is to create a R/Shiny package for detecting race or gender bias in the use of peremptory challenges during jury selection. For details, see Sachin S. Pandya, Xiaomeng Li, Eric Barón, and Timothy E. Moore, "Bayesian Detection of Bias in Peremptory Challenges Using Historical Strike Data," _The American Statistician_ (forthcoming).
+
+<!--
 
 ## Installation
 
@@ -29,6 +31,8 @@ You can install the released version of batson.app.pkg from [CRAN](https://CRAN.
 install.packages("batson.app.pkg")
 ```
 
+-->
+
 ## Functionality
 
 
@@ -37,4 +41,4 @@ library(batson.app.pkg)
 run_app()
 ```
 
-A package vignette is forthcoming.
+
