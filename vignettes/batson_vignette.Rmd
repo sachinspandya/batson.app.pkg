@@ -39,18 +39,20 @@ For these peremptory challenges, following @Kadane2018 and @Barrett2007, we mode
 
 For any given jury selection $i$, let $j$ denote a peremptory strike used, and let $\delta_{ij}$ denote whether or not a party used that strike on a person who belongs to a "cognizable class". If "race" is the bias type of interest, the cognizable class is racial minority jurors ($\delta_{ij} =1$, 0 for White jurors).  If "gender" is the bias of interest, the cognizable class is female jurors ($\delta_{ij} = 1$, 0 for male jurors). In turn, let $c_{ij}$ denote the number of cognizable class members subject to strike; and $m_{ij}$ denote the number of cognizable class non-members subject to strike, such that $c_{ij}+m_{ij}$ is the total number of jurors potentially subject to strike.
 
-Accordingly, for any given value of the bias parameter $b$, the probability of strike, or $Pr(\delta_{ij})$, is:
+Accordingly, for any given value of the bias parameter $b$, the probability of strike of a member from either class, or $Pr(\delta_{ij})$, is such that:
 
-$$
+\begin{equation}
 Pr(\delta_{ij} | b) = 
 \begin{cases}
   \frac{(e^b)c_{ij}}{(e^b)c_{ij}+m_{ij}} & \text{for }\delta_{ij}=1\\    
-  \frac{m_{ij}}{(e^b)c_{ij}+m_{ij}} & \text{for }\delta_{ij}=0  
-\end{cases}
-$$
-This is equivalent to
+  \frac{m_{ij}}{(e^b)c_{ij}+m_{ij}} & \text{for }\delta_{ij}=0  \label{eq:model1}
+\end{cases} 
+\end{equation} This Equation \eqref{eq:model1} is equivalent to
 
-$$Pr(\delta_{ij}| b) = \frac{(e^b)c_{ij}}{(e^b)c_{ij}+m_{ij}})^{\delta_{ij}} (\frac{m_{ij}}{(e^b)c_{ij}+m_{ij}})^{1-\delta_{ij}}$$
+\begin{equation}
+Pr(\delta_{ij}| b) = \left(\frac{(e^b)c_{ij}}{(e^b)c_{ij}+m_{ij}}\right)^{\delta_{ij}} \left(\frac{m_{ij}}{(e^b)c_{ij}+m_{ij}}\right)^{1-\delta_{ij}}
+\label{eq:model2}
+\end{equation}
 
 If $b = 0$, there is no bias, and the probability of strike is simply a function of the share of cognizable members (non-members) in the pool of prospective jurors that could be struck.
 
@@ -58,10 +60,10 @@ Because $b$ is not directly observable, we are interested in estimating the like
 
 Accordingly, we model the jury-selection process as follows. 
 
-\[L(b|\delta) = \prod_{i=1}^{n_i} \prod_{j=1}^{n_j}(\frac{(e^b)c_{ij}}{(e^b)c_{ij}+m_{ij}})^{\delta_{ij}} (\frac{m_{ij}}{(e^b)c_{ij}+m_{ij}})^{1-\delta_{ij}}\]
-\[b \sim \text{Normal}(0,2)\]
-
-where $n_{i}$ is the total number of jury selections; and $n_j$ is the total number of peremptory strikes.
+\begin{equation}  
+L(b|\delta) = \prod_{i=1}^{n_i} \prod_{j=1}^{n_j}\left(\frac{(e^b)c_{ij}}{(e^b)c_{ij}+m_{ij}}\right)^{\delta_{ij}} \left(\frac{m_{ij}}{(e^b)c_{ij}+m_{ij}}\right)^{1-\delta_{ij}}
+\label{eq:model3}
+\end{equation} where $n_{i}$ is the total number of jury selections (trials), $n_j$ is the total number of peremptory strikes, and $\delta=(\delta_{11},\delta_{12},\dots,\delta_{{n_i}{n_j}})$ 
 
 This way, if it is equally likely that a member and non-member of the cognizable class will be stricken, then $w = \frac{Pr(X=1)=0.50}{Pr(X = 0)=0.50}=1$. If so, our measure of bias is zero: given $w=e^b$, then $e^b=1$ and $b=log(1)=0$. If $b>0$, we infer that the the party has bias favoring a strike against a juror falling within the cognizable class ($X=1$, e.g., the juror is a racial minority). Where $b<0$, the party has bias toward striking a juror falling outside the cognizable class ($X=0$, e.g., the juror is White). 
 
@@ -75,6 +77,8 @@ The dashed lines indicate a pre-set _credible interval_, i.e., here the values o
 
 The grey graph depicts the prior distribution for $b$.  Absent any historical data, we set the initial prior such that $b=Normal(0,2)$. With historical strike data we have for a particular selected attorney, the grey graph depicts an updated prior. In either case, the prior represents our *prior beliefs* about an attorney's possible bias in using peremptory challenges, before we know anything about how any attorney uses peremptory strikes in the case before us. The red (for prosecution) and blue (for the defense) distributions in the foreground represent our updated_expectations after accounting for the user-inputted strike data.
 
-# References
+# More details
 
-
+For more detail, and citation, see the published paper in The American Statistician:
+"Bayesian Detection of Bias in Peremptory Challenges Using Historical Strike Data"
+By: Sachin S. Pandya, Xiaomeng Li, Eric Barón, Timothy E. Moore
